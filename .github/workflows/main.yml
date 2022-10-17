@@ -1,0 +1,22 @@
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  hello_world_job:
+    runs-on: self-hosted
+    # runs-on: ubuntu-latest
+    name: Compile mutter for the Pinenote
+    steps:
+      - name: Docker-based compilation
+        id: compile-kernel-in-docker
+        uses: m-weigand/ci_test_1@main
+      - name: Print environemnt
+        run: env
+      - name: Upload files
+        uses: actions/upload-artifact@v3
+        with:
+          name: mutter
+          path: ${{ runner.temp }}/_github_home/mutter_arm64_debs
