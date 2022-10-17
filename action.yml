@@ -1,6 +1,6 @@
 # action.yml
-name: 'Pinenote kernel'
-description: 'Compile the mw/rk35/pinenote-next-t1 kernel branch for the Pinenote'
+name: 'Pinenote mutter package'
+description: 'Compile and package mutter for Debian on the Pine64 Pinenote'
 runs:
   using: 'docker'
   image: 'Dockerfile'
