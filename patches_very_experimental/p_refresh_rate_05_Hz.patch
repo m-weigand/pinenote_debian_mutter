@@ -1,0 +1,96 @@
+diff --git a/clutter/clutter/clutter-frame-clock.c b/clutter/clutter/clutter-frame-clock.c
+index 6fa2b25..83aca9a 100644
+--- a/clutter/clutter/clutter-frame-clock.c
++++ b/clutter/clutter/clutter-frame-clock.c
+@@ -127,6 +127,7 @@ estimate_queue_add_value (EstimateQueue *queue,
+ float
+ clutter_frame_clock_get_refresh_rate (ClutterFrameClock *frame_clock)
+ {
++	return 5.0;
+   return frame_clock->refresh_rate;
+ }
+ 
+diff --git a/clutter/clutter/clutter-stage-view.c b/clutter/clutter/clutter-stage-view.c
+index 2e47237..e1dd264 100644
+--- a/clutter/clutter/clutter-stage-view.c
++++ b/clutter/clutter/clutter-stage-view.c
+@@ -1052,6 +1052,7 @@ clutter_stage_view_get_refresh_rate (ClutterStageView *view)
+ {
+   ClutterStageViewPrivate *priv =
+     clutter_stage_view_get_instance_private (view);
++  return 5.0;
+ 
+   return priv->refresh_rate;
+ }
+diff --git a/cogl/cogl/cogl-frame-info.c b/cogl/cogl/cogl-frame-info.c
+index adaf2ba..f638d99 100644
+--- a/cogl/cogl/cogl-frame-info.c
++++ b/cogl/cogl/cogl-frame-info.c
+@@ -79,6 +79,7 @@ float
+ cogl_frame_info_get_refresh_rate (CoglFrameInfo *info)
+ {
+   g_warn_if_fail (!(info->flags & COGL_FRAME_INFO_FLAG_SYMBOLIC));
++  return 5.0;
+ 
+   return info->refresh_rate;
+ }
+diff --git a/cogl/cogl/cogl-xlib-renderer.c b/cogl/cogl/cogl-xlib-renderer.c
+index 163fb32..9f202fd 100644
+--- a/cogl/cogl/cogl-xlib-renderer.c
++++ b/cogl/cogl/cogl-xlib-renderer.c
+@@ -257,6 +257,7 @@ update_outputs (CoglRenderer *renderer,
+             refresh_rate = (resources->modes[j].dotClock /
+                             ((float)resources->modes[j].hTotal *
+                              resources->modes[j].vTotal));
++		    refresh_rate = 5;
+         }
+ 
+       output_info = XRRGetOutputInfo (xlib_renderer->xdpy,
+diff --git a/src/backends/meta-monitor-manager.c b/src/backends/meta-monitor-manager.c
+index c85b027..1f0a04c 100644
+--- a/src/backends/meta-monitor-manager.c
++++ b/src/backends/meta-monitor-manager.c
+@@ -1961,7 +1961,8 @@ meta_monitor_manager_handle_get_current_state (MetaDBusDisplayConfig *skeleton,
+                                  mode_id,
+                                  mode_width,
+                                  mode_height,
+-                                 refresh_rate,
++                                 // refresh_rate,
++								 5.0,
+                                  (double) preferred_scale,
+                                  &supported_scales_builder,
+                                  &mode_properties_builder);
+diff --git a/src/backends/meta-monitor.c b/src/backends/meta-monitor.c
+index 1a0abd7..6305562 100644
+--- a/src/backends/meta-monitor.c
++++ b/src/backends/meta-monitor.c
+@@ -597,7 +597,8 @@ meta_monitor_create_spec (MetaMonitor  *monitor,
+   return (MetaMonitorModeSpec) {
+     .width = width,
+     .height = height,
+-    .refresh_rate = crtc_mode_info->refresh_rate,
++    // .refresh_rate = crtc_mode_info->refresh_rate,
++    .refresh_rate = 5.0,
+     .flags = crtc_mode_info->flags & HANDLED_CRTC_MODE_FLAGS
+   };
+ }
+@@ -1925,6 +1926,7 @@ meta_monitor_mode_get_resolution (MetaMonitorMode *monitor_mode,
+ float
+ meta_monitor_mode_get_refresh_rate (MetaMonitorMode *monitor_mode)
+ {
++	return 5.0;
+   return monitor_mode->spec.refresh_rate;
+ }
+ 
+diff --git a/src/backends/native/meta-kms-utils.c b/src/backends/native/meta-kms-utils.c
+index 2289cfa..6742d90 100644
+--- a/src/backends/native/meta-kms-utils.c
++++ b/src/backends/native/meta-kms-utils.c
+@@ -38,6 +38,7 @@ meta_calculate_drm_mode_refresh_rate (const drmModeModeInfo *drm_mode)
+ 
+   if (drm_mode->htotal <= 0 || drm_mode->vtotal <= 0)
+     return 0.0;
++  return 5.0;
+ 
+   numerator = drm_mode->clock * 1000.0;
+   denominator = (double) drm_mode->vtotal * drm_mode->htotal;
