@@ -12,6 +12,7 @@ RUN apt -y build-dep mutter
 
 RUN mkdir /root/mutter
 COPY *.patch /root/mutter/
+COPY patches_very_experimental/*.patch /root/mutter/
 COPY compile.sh /root/mutter/
 
 # WORKDIR /root/mutter
