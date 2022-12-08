@@ -16,17 +16,19 @@ if [ ! -d mutter ]; then
     cd ..
 fi
 
-tar cvf mutter_src_flavor1.tar.gz mutter
+XZ_OPT='-9' tar -cvJf mutter_src_flavor1.tar.xz mutter
 
 cd mutter
-time DEB_BUILD_OPTIONS="nocheck parallel=2" dpkg-buildpackage --build=binary
+time DEB_BUILD_OPTIONS="nocheck parallel=4" dpkg-buildpackage --build=binary
 cd ..
 
 outdir="mutter_arm64_debs_flavor1"
 test -d "${outdir}" && rm -r "${outdir}"
 mkdir "${outdir}"
+rm *dbgsym*.deb
+rm *test*.deb
 mv *.deb "${outdir}"/
-mv mutter_src.tar.gz "${outdir}/"
+mv mutter_src_flavor1.tar.xz "${outdir}/"
 
 echo "Move output directory to artifact directory"
 
@@ -45,20 +47,23 @@ if [ ! -d mutter ]; then
 	patch -p1 < ../patches_very_experimental/p_refresh_rate_15_Hz.patch
     cd ..
 fi
-tar cvf mutter_src_flavor2.tar.gz mutter
+XZ_OPT='-9' tar -cvJf mutter_src_flavor2.tar.xz mutter
 
 cd mutter
-time DEB_BUILD_OPTIONS="nocheck parallel=2" dpkg-buildpackage --build=binary
+time DEB_BUILD_OPTIONS="nocheck parallel=4" dpkg-buildpackage --build=binary
 cd ..
 
 outdir="mutter_arm64_debs_flavor2"
 test -d "${outdir}" && rm -r "${outdir}"
 mkdir "${outdir}"
+rm *dbgsym*.deb
+rm *test*.deb
 mv *.deb "${outdir}"/
-mv mutter_src.tar.gz "${outdir}/"
+mv mutter_src_flavor2.tar.xz "${outdir}/"
 
 echo "Move output directory to artifact directory"
 
 test -d /github/home/"${outdir}" && rm -r /github/home/"${outdir}"
 
 mv "${outdir}" /github/home
+chmod -R 0777 /github/home
