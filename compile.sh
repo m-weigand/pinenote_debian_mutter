@@ -8,7 +8,9 @@
 cd /root/mutter
 
 if [ ! -d mutter ]; then
-    git clone --branch debian/master https://salsa.debian.org/gnome-team/mutter.git
+    # git clone --branch debian/master https://salsa.debian.org/gnome-team/mutter.git
+    apt source mutter
+    mv mutter-* mutter
     cd mutter
     patch -p1 < ../0001-Add-META_CONNECTOR_TYPE_DPI.patch
     cd ..
