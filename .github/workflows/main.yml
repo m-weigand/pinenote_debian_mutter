@@ -17,4 +17,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: mutter
-          path: ${{ runner.temp }}/_github_home/mutter_arm64_debs
+          path: ${{ runner.temp }}/_github_home/mutter_arm64_debs_flavor1
+      - name: Upload files 2
+        uses: actions/upload-artifact@v3
+        with:
+          name: mutter_15Hz
+          path: ${{ runner.temp }}/_github_home/mutter_arm64_debs_flavor2
